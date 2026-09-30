@@ -1,0 +1,117 @@
+:root {
+  /* ==========================================================================
+     VIVARIUM DESIGN SYSTEM TOKENS
+     Paleta: Azul Celeste (Grêmio), Azul Bebê, Branco e Azul Escuro Profundo
+     ========================================================================== */
+
+  /* Cores Principais (Identidade Vivarium) */
+  --color-primary: #0D80BF;           /* Azul Celeste Grêmio - Ações principais e destaque */
+  --color-primary-hover: #0B6FA6;     /* Hover do azul principal */
+  --color-primary-dark: #074D75;      /* Ativo / Pressionado / Destaque profundo */
+  --color-primary-light: #3EA4DF;     /* Tom mais claro de suporte */
+
+  /* Tons Secundários e Suaves */
+  --color-secondary: #E8F4FD;         /* Azul Bebê - Fundos suaves, tags e botões secundários */
+  --color-secondary-hover: #D5ECFB;   /* Hover de áreas azul bebê */
+  --color-secondary-dark: #B9DEF7;    /* Bordas e acentos em áreas suaves */
+
+  /* Superfícies e Fundos */
+  --color-background: #ADD8E6;        /* Fundo principal da aplicação - Azul bebê claro */
+  --color-surface: #FFFFFF;           /* Superfícies limpas, cards, modais, caixas */
+  --color-surface-elevated: #FFFFFF;  /* Cards elevados e menus flutuantes */
+  --color-surface-hover: #F8FAFD;     /* Hover em superfícies brancas */
+
+  /* Tipografia e Contraste de Texto */
+  --color-text: #0D1F3C;              /* Azul escuro profundo - Máxima legibilidade e contraste */
+  --color-text-secondary: #5A6E85;    /* Cinza azulado - Subtítulos, labels e descrições */
+  --color-text-muted: #8899A6;        /* Cinza neutro suave - Placeholders, notas de rodapé */
+  --color-text-inverse: #FFFFFF;      /* Texto branco sobre fundos escuros ou primários */
+
+  /* Bordas e Divisores */
+  --color-border: #D8E5F0;            /* Borda padrão sutil */
+  --color-border-hover: #B4CCE0;      /* Borda interativa ao passar o mouse */
+  --color-border-focus: #0D80BF;      /* Borda ativa em foco */
+  --color-focus-ring: rgba(13, 128, 191, 0.25); /* Anel de foco para acessibilidade */
+
+  /* Cores de Feedback / Status */
+  --color-success: #10B981;
+  --color-success-bg: #ECFDF5;
+  --color-success-text: #065F46;
+
+  --color-warning: #F59E0B;
+  --color-warning-bg: #FFFBEB;
+  --color-warning-text: #92400E;
+
+  --color-error: #EF4444;
+  --color-error-bg: #FEF2F2;
+  --color-error-text: #991B1B;
+
+  /* ==========================================================================
+     ESPAÇAMENTO MODULAR
+     ========================================================================== */
+  --space-2xs: 0.25rem;  /* 4px  - Pequenos detalhes */
+  --space-xs:  0.5rem;   /* 8px  - Espaçamentos compactos */
+  --space-sm:  0.75rem;  /* 12px - Gaps de itens inline */
+  --space-md:  1rem;     /* 16px - Padding padrão de inputs e containers */
+  --space-lg:  1.25rem;  /* 20px - Separações médias */
+  --space-xl:  1.5rem;   /* 24px - Padding de cards e seções */
+  --space-2xl: 2rem;     /* 32px - Espaçamento entre blocos */
+  --space-3xl: 2.5rem;   /* 40px - Margens de cabeçalhos */
+  --space-4xl: 3rem;     /* 48px - Seções amplas */
+  --space-5xl: 4rem;     /* 64px - Espaçamentos de hero/page */
+
+  /* ==========================================================================
+     BORDER RADIUS
+     ========================================================================== */
+  --radius-xs: 0.25rem;   /* 4px  - Pequenos elementos e badges */
+  --radius-sm: 0.375rem;  /* 6px  - Tags e tooltips */
+  --radius-md: 0.5rem;    /* 8px  - Inputs e controles de formulário */
+  --radius-lg: 0.625rem;  /* 10px - Botões */
+  --radius-xl: 1rem;      /* 16px - Cards e caixas */
+  --radius-2xl: 1.5rem;   /* 24px - Grandes containers e modais */
+  --radius-full: 9999px;  /* Pílulas, avatares circulares */
+
+  /* ==========================================================================
+     SOMBRAS PADRONIZADAS
+     ========================================================================== */
+  --shadow-sm: 0 1px 3px rgba(13, 31, 60, 0.05), 0 1px 2px rgba(13, 31, 60, 0.03);
+  --shadow-md: 0 4px 10px -1px rgba(13, 31, 60, 0.08), 0 2px 4px -2px rgba(13, 31, 60, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(13, 31, 60, 0.10), 0 4px 8px -4px rgba(13, 31, 60, 0.05);
+  --shadow-focus: 0 0 0 3px var(--color-focus-ring);
+
+  /* ==========================================================================
+     TIPOGRAFIA
+     ========================================================================== */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Tamanhos de Fonte */
+  --font-size-h1: 2.25rem;     /* 36px */
+  --font-size-h2: 1.75rem;     /* 28px */
+  --font-size-h3: 1.25rem;     /* 20px */
+  --font-size-body: 1rem;      /* 16px */
+  --font-size-small: 0.875rem; /* 14px */
+  --font-size-caption: 0.75rem;/* 12px */
+
+  /* Alturas de Linha */
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.35;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+
+  /* Pesos de Fonte */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ==========================================================================
+     TRANSIÇÕES SUAVES
+     ========================================================================== */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Alturas de Controle Padronizadas (Acessibilidade) */
+  --control-height: 44px;
+}

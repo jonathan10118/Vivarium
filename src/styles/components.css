@@ -1,0 +1,255 @@
+/* ==========================================================================
+   VIVARIUM REUSABLE COMPONENT BASES
+   Botões, Inputs e Cards padronizados para o Design System
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. BOTÕES (BUTTONS)
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-height: var(--control-height);
+  padding: 0 var(--space-xl);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--transition-fast),
+              border-color var(--transition-fast),
+              color var(--transition-fast),
+              box-shadow var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+/* Botão Primário (Azul Celeste Grêmio) */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:active {
+  background-color: var(--color-primary-dark);
+  transform: translateY(1px);
+}
+
+/* Botão Secundário (Azul Bebê / Fundo Claro com Borda Sutil) */
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  border-color: var(--color-secondary-dark);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary-hover);
+  border-color: var(--color-primary-light);
+  color: var(--color-primary-hover);
+}
+
+.btn-secondary:active {
+  background-color: var(--color-secondary-dark);
+  transform: translateY(1px);
+}
+
+/* Botão Secundário Variante Branca */
+.btn-outline {
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  border-color: var(--color-border);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-secondary);
+  border-color: var(--color-primary-light);
+}
+
+/* Botão de Texto (Leve / Ações Secundárias) */
+.btn-text {
+  background-color: transparent;
+  color: var(--color-primary);
+  padding: 0 var(--space-md);
+}
+
+.btn-text:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-primary-hover);
+}
+
+.btn-text:active {
+  background-color: var(--color-secondary-hover);
+}
+
+/* Variantes de Tamanho para Botões */
+.btn-sm {
+  min-height: 36px;
+  padding: 0 var(--space-md);
+  font-size: var(--font-size-small);
+  border-radius: var(--radius-md);
+}
+
+.btn-lg {
+  min-height: 50px;
+  padding: 0 var(--space-2xl);
+  font-size: 1.0625rem;
+  border-radius: var(--radius-lg);
+}
+
+
+/* --------------------------------------------------------------------------
+   2. CAMPOS DE FORMULÁRIO (INPUTS)
+   -------------------------------------------------------------------------- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: 100%;
+}
+
+.label,
+.form-label {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  line-height: var(--line-height-normal);
+}
+
+.input,
+.form-control {
+  width: 100%;
+  min-height: var(--control-height);
+  padding: 0 var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast),
+              background-color var(--transition-fast);
+}
+
+.input::placeholder,
+.form-control::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+.input:hover,
+.form-control:hover {
+  border-color: var(--color-border-hover);
+}
+
+.input:focus,
+.form-control:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: var(--shadow-focus);
+}
+
+.input:disabled,
+.form-control:disabled {
+  background-color: var(--color-background);
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Estado de Erro no Input */
+.input.has-error,
+.form-control.is-invalid {
+  border-color: var(--color-error);
+}
+
+.input.has-error:focus,
+.form-control.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+/* Mensagens de Suporte */
+.helper-text {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-caption);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+}
+
+.error-text {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-error);
+  line-height: var(--line-height-normal);
+}
+
+
+/* --------------------------------------------------------------------------
+   3. CARDS
+   -------------------------------------------------------------------------- */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-xl);
+  color: var(--color-text);
+  transition: transform var(--transition-fast),
+              box-shadow var(--transition-fast),
+              border-color var(--transition-fast);
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-body {
+  margin-bottom: var(--space-md);
+}
+
+.card-footer {
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border);
+}
