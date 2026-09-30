@@ -74,6 +74,11 @@ class AuthService {
    */
   logout() {
     storageService.clearAuth();
+    try {
+      localStorage.removeItem('vivarium_user_extended');
+    } catch {
+      // ignore
+    }
   }
 
   /**

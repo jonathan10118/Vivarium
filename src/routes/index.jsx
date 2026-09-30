@@ -8,15 +8,14 @@ import Perfil from '../pages/Perfil';
 import PerfilPet from '../pages/PerfilPet';
 import Mapa from '../pages/Mapa';
 import Configuracoes from '../pages/Configuracoes';
+import MeusPets from '../pages/MeusPets';
+import Contato from '../pages/Contato';
+import IA from '../pages/IA';
 import NotFound from '../pages/NotFound';
 
 /**
  * Definição centralizada de rotas da aplicação Vivarium.
- * Novas telas e submódulos podem ser registrados nesta estrutura.
- * 
- * Nota: A proteção visual de rotas está implementada nas próprias páginas:
- * - Login/Cadastro: Redirecionam para /perfil se já autenticado
- * - Perfil/CadastroPet/PerfilPet/Configuracoes: Redirecionam para /login se não autenticado
+ * Todas as rotas públicas e autenticadas registradas no padrão React Router.
  */
 export const router = createBrowserRouter([
   {
@@ -36,24 +35,40 @@ export const router = createBrowserRouter([
         element: <Cadastro />,
       },
       {
-        path: 'pets/novo',
-        element: <CadastroPet />,
+        path: 'mapa',
+        element: <Mapa />,
+      },
+      {
+        path: 'ia',
+        element: <IA />,
+      },
+      {
+        path: 'contato',
+        element: <Contato />,
       },
       {
         path: 'perfil',
         element: <Perfil />,
       },
       {
-        path: 'pets/:id',
-        element: <PerfilPet />,
-      },
-      {
-        path: 'mapa',
-        element: <Mapa />,
-      },
-      {
         path: 'configuracoes',
         element: <Configuracoes />,
+      },
+      {
+        path: 'pets',
+        element: <MeusPets />,
+      },
+      {
+        path: 'meus-pets',
+        element: <MeusPets />,
+      },
+      {
+        path: 'pets/novo',
+        element: <CadastroPet />,
+      },
+      {
+        path: 'pets/:id',
+        element: <PerfilPet />,
       },
       {
         path: '*',

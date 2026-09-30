@@ -159,14 +159,15 @@ export default function Mapa() {
               position: 'relative',
               width: '100%',
               height: '400px',
-              backgroundColor: '#ADD8E6',
+              backgroundColor: '#0C182B',
               backgroundImage: `
-                linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)
+                linear-gradient(rgba(173, 216, 230, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(173, 216, 230, 0.12) 1px, transparent 1px)
               `,
               backgroundSize: '40px 40px',
               borderRadius: 'var(--radius-lg)',
               overflow: 'hidden',
+              border: '1px solid var(--color-border)',
             }}
           >
             {/* Ruas simuladas */}
@@ -177,8 +178,8 @@ export default function Mapa() {
                 left: 0,
                 right: 0,
                 height: '20px',
-                backgroundColor: '#FFFFFF',
-                border: '1px solid #D8E5F0',
+                backgroundColor: '#162842',
+                border: '1px solid #233E66',
               }}
             />
             <div
@@ -188,8 +189,8 @@ export default function Mapa() {
                 bottom: 0,
                 left: '40%',
                 width: '20px',
-                backgroundColor: '#FFFFFF',
-                border: '1px solid #D8E5F0',
+                backgroundColor: '#162842',
+                border: '1px solid #233E66',
               }}
             />
             <div
@@ -199,8 +200,8 @@ export default function Mapa() {
                 left: 0,
                 right: 0,
                 height: '15px',
-                backgroundColor: '#FFFFFF',
-                border: '1px solid #D8E5F0',
+                backgroundColor: '#162842',
+                border: '1px solid #233E66',
               }}
             />
             <div
@@ -210,8 +211,8 @@ export default function Mapa() {
                 bottom: 0,
                 left: '70%',
                 width: '15px',
-                backgroundColor: '#FFFFFF',
-                border: '1px solid #D8E5F0',
+                backgroundColor: '#162842',
+                border: '1px solid #233E66',
               }}
             />
 
@@ -302,11 +303,13 @@ export default function Mapa() {
                 position: 'absolute',
                 bottom: '16px',
                 left: '16px',
-                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                backgroundColor: 'rgba(15, 27, 46, 0.95)',
+                color: 'var(--color-text)',
                 padding: '12px',
                 borderRadius: 'var(--radius-md)',
                 border: '1px solid var(--color-border)',
                 fontSize: 'var(--font-size-caption)',
+                boxShadow: 'var(--shadow-md)',
               }}
             >
               <div className="caption text-muted mb-2">Clique nos marcadores para ver detalhes</div>
@@ -379,7 +382,8 @@ export default function Mapa() {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: 'rgba(13, 31, 60, 0.5)',
+              backgroundColor: 'rgba(5, 12, 22, 0.8)',
+              backdropFilter: 'blur(4px)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -395,6 +399,7 @@ export default function Mapa() {
                 width: '100%',
                 maxHeight: '90vh',
                 overflowY: 'auto',
+                backgroundColor: 'var(--color-surface-elevated)',
               }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -444,7 +449,8 @@ export default function Mapa() {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: 'rgba(13, 31, 60, 0.5)',
+              backgroundColor: 'rgba(5, 12, 22, 0.8)',
+              backdropFilter: 'blur(4px)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -458,6 +464,7 @@ export default function Mapa() {
               style={{
                 maxWidth: '400px',
                 width: '100%',
+                backgroundColor: 'var(--color-surface-elevated)',
               }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -511,7 +518,8 @@ export default function Mapa() {
               left: 0,
               right: 0,
               bottom: 0,
-              backgroundColor: 'rgba(13, 31, 60, 0.5)',
+              backgroundColor: 'rgba(5, 12, 22, 0.8)',
+              backdropFilter: 'blur(4px)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -525,6 +533,7 @@ export default function Mapa() {
               style={{
                 maxWidth: '400px',
                 width: '100%',
+                backgroundColor: 'var(--color-surface-elevated)',
               }}
               onClick={(e) => e.stopPropagation()}
             >

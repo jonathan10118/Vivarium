@@ -1,50 +1,52 @@
 :root {
   /* ==========================================================================
-     VIVARIUM DESIGN SYSTEM TOKENS
-     Paleta: Azul Celeste (Grêmio), Azul Bebê, Branco e Azul Escuro Profundo
+     VIVARIUM DESIGN SYSTEM TOKENS — MODO DARK (Padrão)
+     Referência principal de identidade: #ADD8E6 (Azul Bebê / Light Blue)
+     Paleta: Azul-marinho profundo, Azul escuro tecnológico, Branco/quase branco,
+     Cinza azulado e Destaques #ADD8E6
      ========================================================================== */
 
-  /* Cores Principais (Identidade Vivarium) */
-  --color-primary: #0D80BF;           /* Azul Celeste Grêmio - Ações principais e destaque */
-  --color-primary-hover: #0B6FA6;     /* Hover do azul principal */
-  --color-primary-dark: #074D75;      /* Ativo / Pressionado / Destaque profundo */
-  --color-primary-light: #3EA4DF;     /* Tom mais claro de suporte */
+  /* Cores Principais (Identidade Vivarium com referência #ADD8E6) */
+  --color-primary: #ADD8E6;           /* Azul Bebê Vivarium - Destaque, ações e foco */
+  --color-primary-hover: #C6E7F4;     /* Hover do azul bebê */
+  --color-primary-dark: #8AC6DB;      /* Pressionado / Ativo */
+  --color-primary-light: #DDF2FB;     /* Tom mais claro de suporte */
 
-  /* Tons Secundários e Suaves */
-  --color-secondary: #E8F4FD;         /* Azul Bebê - Fundos suaves, tags e botões secundários */
-  --color-secondary-hover: #D5ECFB;   /* Hover de áreas azul bebê */
-  --color-secondary-dark: #B9DEF7;    /* Bordas e acentos em áreas suaves */
+  /* Tons Secundários e Superfícies Suaves */
+  --color-secondary: #132238;         /* Superfície suave azulada */
+  --color-secondary-hover: #1A2F4C;   /* Hover de áreas azuladas */
+  --color-secondary-dark: #233D62;    /* Bordas e acentos em áreas secundárias */
 
-  /* Superfícies e Fundos */
-  --color-background: #ADD8E6;        /* Fundo principal da aplicação - Azul bebê claro */
-  --color-surface: #FFFFFF;           /* Superfícies limpas, cards, modais, caixas */
-  --color-surface-elevated: #FFFFFF;  /* Cards elevados e menus flutuantes */
-  --color-surface-hover: #F8FAFD;     /* Hover em superfícies brancas */
+  /* Superfícies e Fundos (Azul-marinho profundo / azul escuro - NÃO preto puro) */
+  --color-background: #09121F;        /* Fundo principal da aplicação */
+  --color-surface: #0F1B2E;           /* Superfícies limpas, cards, modais, caixas */
+  --color-surface-elevated: #15253D;  /* Cards elevados, menus flutuantes, header */
+  --color-surface-hover: #192D49;     /* Hover em superfícies */
 
   /* Tipografia e Contraste de Texto */
-  --color-text: #0D1F3C;              /* Azul escuro profundo - Máxima legibilidade e contraste */
-  --color-text-secondary: #5A6E85;    /* Cinza azulado - Subtítulos, labels e descrições */
-  --color-text-muted: #8899A6;        /* Cinza neutro suave - Placeholders, notas de rodapé */
-  --color-text-inverse: #FFFFFF;      /* Texto branco sobre fundos escuros ou primários */
+  --color-text: #F1F5F9;              /* Branco suave / quase branco - Máxima legibilidade */
+  --color-text-secondary: #94A9C4;    /* Cinza azulado claro - Subtítulos, labels e descrições */
+  --color-text-muted: #627997;        /* Cinza azulado discreto - Placeholders, notas de rodapé */
+  --color-text-inverse: #09121F;      /* Texto escuro de alto contraste sobre botões #ADD8E6 */
 
   /* Bordas e Divisores */
-  --color-border: #D8E5F0;            /* Borda padrão sutil */
-  --color-border-hover: #B4CCE0;      /* Borda interativa ao passar o mouse */
-  --color-border-focus: #0D80BF;      /* Borda ativa em foco */
-  --color-focus-ring: rgba(13, 128, 191, 0.25); /* Anel de foco para acessibilidade */
+  --color-border: #1C304A;            /* Borda discreta azulada */
+  --color-border-hover: #2E4B72;      /* Borda interativa ao passar o mouse */
+  --color-border-focus: #ADD8E6;      /* Borda ativa em foco */
+  --color-focus-ring: rgba(173, 216, 230, 0.35); /* Anel de foco para acessibilidade */
 
   /* Cores de Feedback / Status */
-  --color-success: #10B981;
-  --color-success-bg: #ECFDF5;
-  --color-success-text: #065F46;
+  --color-success: #34D399;
+  --color-success-bg: #064E3B;
+  --color-success-text: #A7F3D0;
 
-  --color-warning: #F59E0B;
-  --color-warning-bg: #FFFBEB;
-  --color-warning-text: #92400E;
+  --color-warning: #FBBF24;
+  --color-warning-bg: #78350F;
+  --color-warning-text: #FDE68A;
 
-  --color-error: #EF4444;
-  --color-error-bg: #FEF2F2;
-  --color-error-text: #991B1B;
+  --color-error: #F87171;
+  --color-error-bg: #450A0A;
+  --color-error-text: #FECACA;
 
   /* ==========================================================================
      ESPAÇAMENTO MODULAR
@@ -74,9 +76,10 @@
   /* ==========================================================================
      SOMBRAS PADRONIZADAS
      ========================================================================== */
-  --shadow-sm: 0 1px 3px rgba(13, 31, 60, 0.05), 0 1px 2px rgba(13, 31, 60, 0.03);
-  --shadow-md: 0 4px 10px -1px rgba(13, 31, 60, 0.08), 0 2px 4px -2px rgba(13, 31, 60, 0.04);
-  --shadow-lg: 0 12px 24px -4px rgba(13, 31, 60, 0.10), 0 4px 8px -4px rgba(13, 31, 60, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 14px -1px rgba(0, 0, 0, 0.45), 0 2px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 14px 28px -4px rgba(0, 0, 0, 0.6), 0 6px 14px -4px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 18px rgba(173, 216, 230, 0.25);
   --shadow-focus: 0 0 0 3px var(--color-focus-ring);
 
   /* ==========================================================================

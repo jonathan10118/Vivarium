@@ -10,7 +10,7 @@ import Avatar from '../../components/ui/Avatar';
 import Button from '../../components/ui/Button';
 import Card from '../../components/ui/Card';
 import Modal from '../../components/ui/Modal';
-import Input from '../../components/ui/Select';
+import Input from '../../components/ui/Input';
 import ErrorMessage from '../../components/ui/ErrorMessage';
 
 export default function PerfilPet() {

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   VIVARIUM REUSABLE COMPONENT BASES
+   VIVARIUM REUSABLE COMPONENT BASES — MODO DARK
    Botões, Inputs e Cards padronizados para o Design System
    ========================================================================== */
 
@@ -37,13 +37,13 @@
 
 .btn:disabled,
 .btn[aria-disabled="true"] {
-  opacity: 0.55;
+  opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
   box-shadow: none;
 }
 
-/* Botão Primário (Azul Celeste Grêmio) */
+/* Botão Primário (Azul Bebê #ADD8E6 com texto escuro de alto contraste) */
 .btn-primary {
   background-color: var(--color-primary);
   color: var(--color-text-inverse);
@@ -52,15 +52,17 @@
 
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
-  box-shadow: var(--shadow-md);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-glow);
 }
 
 .btn-primary:active {
   background-color: var(--color-primary-dark);
+  color: var(--color-text-inverse);
   transform: translateY(1px);
 }
 
-/* Botão Secundário (Azul Bebê / Fundo Claro com Borda Sutil) */
+/* Botão Secundário (Superfície escura com borda azulada e texto #ADD8E6) */
 .btn-secondary {
   background-color: var(--color-secondary);
   color: var(--color-primary);
@@ -69,7 +71,7 @@
 
 .btn-secondary:hover {
   background-color: var(--color-secondary-hover);
-  border-color: var(--color-primary-light);
+  border-color: var(--color-primary);
   color: var(--color-primary-hover);
 }
 
@@ -78,16 +80,17 @@
   transform: translateY(1px);
 }
 
-/* Botão Secundário Variante Branca */
+/* Botão Outline */
 .btn-outline {
-  background-color: var(--color-surface);
+  background-color: transparent;
   color: var(--color-primary);
   border-color: var(--color-border);
 }
 
 .btn-outline:hover {
   background-color: var(--color-secondary);
-  border-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary-hover);
 }
 
 /* Botão de Texto (Leve / Ações Secundárias) */
@@ -95,6 +98,7 @@
   background-color: transparent;
   color: var(--color-primary);
   padding: 0 var(--space-md);
+  border-radius: var(--radius-md);
 }
 
 .btn-text:hover {
@@ -123,7 +127,7 @@
 
 
 /* --------------------------------------------------------------------------
-   2. CAMPOS DE FORMULÁRIO (INPUTS)
+   2. CAMPOS DE FORMULÁRIO (INPUTS & SELECTS)
    -------------------------------------------------------------------------- */
 .form-group {
   display: flex;
@@ -159,6 +163,18 @@
               background-color var(--transition-fast);
 }
 
+select.input,
+select.form-control {
+  appearance: auto;
+  cursor: pointer;
+}
+
+select.input option,
+select.form-control option {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text);
+}
+
 .input::placeholder,
 .form-control::placeholder {
   color: var(--color-text-muted);
@@ -182,7 +198,7 @@
   border-color: var(--color-border);
   color: var(--color-text-muted);
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 /* Estado de Erro no Input */
@@ -193,7 +209,7 @@
 
 .input.has-error:focus,
 .form-control.is-invalid:focus {
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.25);
 }
 
 /* Mensagens de Suporte */
@@ -225,7 +241,8 @@
   color: var(--color-text);
   transition: transform var(--transition-fast),
               box-shadow var(--transition-fast),
-              border-color var(--transition-fast);
+              border-color var(--transition-fast),
+              background-color var(--transition-fast);
 }
 
 .card-interactive {
@@ -235,6 +252,7 @@
 .card-interactive:hover {
   transform: translateY(-2px);
   border-color: var(--color-border-hover);
+  background-color: var(--color-surface-hover);
   box-shadow: var(--shadow-md);
 }
 

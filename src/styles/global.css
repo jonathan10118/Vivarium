@@ -338,13 +338,60 @@ a:focus-visible {
   cursor: pointer;
 }
 
+/* Utilitários de Dimensões e Avatares */
+.w-4 { width: 1rem; }
+.h-4 { height: 1rem; }
+.w-8 { width: 2rem; }
+.h-8 { height: 2rem; }
+.w-12 { width: 3rem; }
+.h-12 { height: 3rem; }
+.w-16 { width: 4rem; }
+.h-16 { height: 4rem; }
+.w-24 { width: 6rem; }
+.h-24 { height: 6rem; }
+
+/* Utilitários de Border Radius */
+.rounded-full { border-radius: var(--radius-full); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-xl { border-radius: var(--radius-xl); }
+
+/* Utilitários de Fundo */
+.bg-primary { background-color: var(--color-primary); }
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-surface { background-color: var(--color-surface); }
+.bg-elevated { background-color: var(--color-surface-elevated); }
+
+/* Utilitários de Tipografia */
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+
+/* Scrollbar Dark Moderna */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-hover);
+}
+
 /* Animação de bounce */
 @keyframes bounce {
   0%, 100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
 }
 
@@ -358,5 +405,17 @@ a:focus-visible {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Suporte a prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

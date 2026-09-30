@@ -38,8 +38,8 @@ export default function Modal({
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{
-        backgroundColor: 'rgba(13, 31, 60, 0.5)',
-        backdropFilter: 'blur(4px)',
+        backgroundColor: 'rgba(5, 12, 22, 0.8)',
+        backdropFilter: 'blur(6px)',
       }}
       onClick={onClose}
       role="dialog"
@@ -48,6 +48,11 @@ export default function Modal({
     >
       <div
         className={`card ${sizeClasses[size]} w-full max-h-[90vh] overflow-y-auto`}
+        style={{
+          backgroundColor: 'var(--color-surface-elevated)',
+          border: '1px solid var(--color-border)',
+          boxShadow: 'var(--shadow-lg)',
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         {title && (
