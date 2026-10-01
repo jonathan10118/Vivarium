@@ -107,7 +107,7 @@ export default function Contato() {
           </div>
         </Card>
 
-        {/* Telefone */}
+        {/* WhatsApp */}
         <Card>
           <div className="flex items-start gap-3">
             <div
@@ -128,9 +128,11 @@ export default function Contato() {
               📱
             </div>
             <div>
-              <h3 className="h3 mb-1" style={{ fontSize: '1.05rem' }}>Telefone</h3>
+              <h3 className="h3 mb-1" style={{ fontSize: '1.05rem' }}>WhatsApp</h3>
               <a
-                href="tel:+5541996647762"
+                href="https://wa.me/5541996647762"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   color: 'var(--color-primary)',
                   fontWeight: 600,

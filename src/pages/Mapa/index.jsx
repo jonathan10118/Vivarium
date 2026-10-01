@@ -1,11 +1,12 @@
 /**
  * Mapa Page - Vivarium
- * Página de mapa com visual mockado, marcadores e animais fictícios
+ * Página de mapa com visual mockado, marcadores de estabelecimentos e pets do usuário
+ * Não mostra pets fictícios como usuários reais
  */
 
 import { useState } from 'react';
 import { placeService, placeCategories } from '../../services';
-import { mockMapAnimals } from '../../data';
+import { useAuth, usePets } from '../../contexts';
 import Input from '../../components/ui/Input';
 import Card from '../../components/ui/Card';
 import PlaceCard from '../../components/map/PlaceCard';
@@ -13,6 +14,8 @@ import EmptyState from '../../components/ui/EmptyState';
 import Button from '../../components/ui/Button';
 
 export default function Mapa() {
+  const { isAuthenticated, user } = useAuth();
+  const { getUserPets } = usePets();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState('all'); // 'all', 'places', 'animals'
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,7 +24,8 @@ export default function Mapa() {
   const [showRouteDemo, setShowRouteDemo] = useState(false);
 
   const allPlaces = placeService.getAllPlaces();
-  const allAnimals = mockMapAnimals;
+  // Apenas pets do usuário autenticado - não usa pets fictícios
+  const userPets = isAuthenticated && user ? getUserPets(user.id) : [];
   
   const filteredItems = (() => {
     let items = [];
@@ -38,13 +42,19 @@ export default function Mapa() {
       items = [...items, ...places.map(p => ({ ...p, type: 'place' }))];
     }
 
-    if (selectedType === 'all' || selectedType === 'animals') {
-      let animals = allAnimals;
+    // Apenas mostra pets do usuário se estiver autenticado e tiver pets
+    if ((selectedType === 'all' || selectedType === 'animals') && isAuthenticated && userPets.length > 0) {
+      let animals = userPets.map(pet => ({
+        ...pet,
+        // Adiciona localização mockada se não existir
+        coordinates: pet.coordinates || { x: 20 + Math.random() * 60, y: 20 + Math.random() * 60 },
+        location: pet.location || 'Localização aproximada',
+      }));
       if (searchTerm) {
         const term = searchTerm.toLowerCase();
-        animals = animals.filter(a => 
+        animals = animals.filter(a =>
           a.name.toLowerCase().includes(term) ||
-          a.breed.toLowerCase().includes(term)
+          (a.breed && a.breed.toLowerCase().includes(term))
         );
       }
       items = [...items, ...animals.map(a => ({ ...a, type: 'animal' }))];
@@ -142,13 +152,15 @@ export default function Mapa() {
             >
               Estabelecimentos
             </Button>
-            <Button
-              variant={selectedType === 'animals' ? 'primary' : 'outline'}
-              size="sm"
-              onClick={() => setSelectedType('animals')}
-            >
-              Pets
-            </Button>
+            {isAuthenticated && userPets.length > 0 && (
+              <Button
+                variant={selectedType === 'animals' ? 'primary' : 'outline'}
+                size="sm"
+                onClick={() => setSelectedType('animals')}
+              >
+                Meus Pets
+              </Button>
+            )}
           </div>
         </Card>
 
@@ -240,7 +252,7 @@ export default function Mapa() {
               </button>
             ))}
 
-            {/* Marcadores de Animais */}
+            {/* Marcadores de Animais (apenas pets do usuário) */}
             {filteredItems.filter(item => item.type === 'animal').map((animal) => (
               <button
                 key={animal.id}
@@ -261,7 +273,21 @@ export default function Mapa() {
                 onMouseLeave={(e) => e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)'}
                 title={animal.name}
               >
-                {animal.species === 'dog' ? '🐕' : '🐱'}
+                {animal.photo ? (
+                  <img
+                    src={animal.photo}
+                    alt={animal.name}
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      border: '2px solid var(--color-primary)',
+                    }}
+                  />
+                ) : (
+                  <span>{animal.species === 'Cachorro' ? '🐕' : '🐱'}</span>
+                )}
               </button>
             ))}
 
@@ -319,7 +345,9 @@ export default function Mapa() {
                     {category.icon} {category.name}
                   </span>
                 ))}
-                <span>🐕🐱 Pets</span>
+                {isAuthenticated && userPets.length > 0 && (
+                  <span>🐕🐱 Meus Pets</span>
+                )}
               </div>
             </div>
           </div>
@@ -354,13 +382,26 @@ export default function Mapa() {
                   onClick={() => handleAnimalClick(item)}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="text-3xl">
-                      {item.species === 'dog' ? '🐕' : '🐱'}
-                    </div>
+                    {item.photo ? (
+                      <img
+                        src={item.photo}
+                        alt={item.name}
+                        style={{
+                          width: '48px',
+                          height: '48px',
+                          borderRadius: 'var(--radius-md)',
+                          objectFit: 'cover',
+                        }}
+                      />
+                    ) : (
+                      <div className="text-3xl">
+                        {item.species === 'Cachorro' ? '🐕' : '🐱'}
+                      </div>
+                    )}
                     <div className="flex-1">
                       <h3 className="h3 mb-1">{item.name}</h3>
                       <p className="small text-secondary mb-1">
-                        {item.species === 'dog' ? 'Cachorro' : 'Gato'} • {item.breed}
+                        {item.species} • {item.breed}
                       </p>
                       <p className="caption text-muted">
                         📍 {item.location}
@@ -492,18 +533,33 @@ export default function Mapa() {
                 </button>
               </div>
               <div className="text-center mb-4">
-                <div className="text-6xl mb-3">
-                  {selectedAnimal.species === 'dog' ? '🐕' : '🐱'}
-                </div>
+                {selectedAnimal.photo ? (
+                  <img
+                    src={selectedAnimal.photo}
+                    alt={selectedAnimal.name}
+                    style={{
+                      width: '80px',
+                      height: '80px',
+                      borderRadius: 'var(--radius-full)',
+                      objectFit: 'cover',
+                      margin: '0 auto var(--space-md)',
+                      border: '3px solid var(--color-primary)',
+                    }}
+                  />
+                ) : (
+                  <div className="text-6xl mb-3">
+                    {selectedAnimal.species === 'Cachorro' ? '🐕' : '🐱'}
+                  </div>
+                )}
                 <p className="small text-secondary mb-1">
-                  {selectedAnimal.species === 'dog' ? 'Cachorro' : 'Gato'} • {selectedAnimal.breed}
+                  {selectedAnimal.species} • {selectedAnimal.breed}
                 </p>
                 <p className="caption text-muted">
                   📍 {selectedAnimal.location}
                 </p>
               </div>
               <div className="caption text-muted text-center" style={{ fontStyle: 'italic' }}>
-                * Dados demonstrativos
+                * Localização aproximada
               </div>
             </div>
           </div>

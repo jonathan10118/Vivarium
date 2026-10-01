@@ -13,34 +13,72 @@ import Button from '../../components/ui/Button';
 const petKnowledgeBase = [
   {
     keywords: ['vacina', 'vacinação', 'vacinas', 'imunização'],
+    category: 'Saúde e cuidados',
     title: 'Protocolo de Vacinação',
     response:
       'Para cães, as vacinas essenciais são a V8 ou V10 (cinomose, parvovirose, hepatite, leptospirose, etc.) e a Antirrábica. O protocolo de filhotes costuma iniciar aos 45-60 dias de vida com reforços a cada 21-30 dias. Para gatos, a vacina polivalente (V3, V4 ou V5) protege contra rinotraqueíte, calicivirose e panleucopenia, além da vacina contra raiva. Mantenha a carteirinha sempre em dia e consulte um veterinário para o reforço anual!',
   },
   {
     keywords: ['comida', 'ração', 'alimentação', 'quantidade', 'comer', 'nutrição'],
+    category: 'Alimentação',
     title: 'Nutrição e Porção Diária',
     response:
       'A quantidade ideal de ração varia conforme peso, idade e nível de atividade física do pet. Filhotes geralmente comem de 3 a 4 vezes ao dia, enquanto adultos se adaptam bem a 2 refeições diárias. Evite alimentos proibidos como chocolate, cebola, alho, uvas e ossos cozidos. Sempre mantenha água fresca e limpa à vontade!',
   },
   {
     keywords: ['gato', 'felino', 'estresse', 'miado', 'caixa de areia'],
+    category: 'Comportamento',
     title: 'Comportamento e Bem-Estar Felino',
     response:
       'Gatos são sensíveis a mudanças no ambiente. Para reduzir o estresse, proporcione enriquecimento ambiental (arranhadores, prateleiras altas, esconderijos) e garanta a regra da caixa de areia (1 caixa por gato + 1 extra). Alterações repentinas no uso da caixa de areia podem indicar problemas no trato urinário; nesses casos, consulte um veterinário.',
   },
   {
     keywords: ['pulga', 'carrapato', 'antiparasitário', 'verme', 'desparasitação'],
+    category: 'Higiene',
     title: 'Controle de Parasitas',
     response:
       'A prevenção contra pulgas, carrapatos e vermes deve ser contínua durante todo o ano. Existem opções em pipetas, comprimidos mastigáveis e coleiras repelentes. A vermifugação em adultos costuma ocorrer a cada 3 a 6 meses. Consulte a melhor opção para a idade e peso do seu pet!',
   },
   {
     keywords: ['filhote', 'socializar', 'morder', 'educar', 'adestrar'],
+    category: 'Comportamento',
     title: 'Socialização de Filhotes',
     response:
       'O período crítico de socialização ocorre até as 14-16 semanas. Apresente gradualmente diferentes sons, superfícies e pessoas de maneira positiva com petiscos. Utilize sempre o reforço positivo (elogios e recompensas) em vez de broncas ou punições físicas.',
   },
+  {
+    keywords: ['passeio', 'caminhada', 'parque', 'correr'],
+    category: 'Passeios',
+    title: 'Passeios e Exercícios',
+    response:
+      'Cães precisam de passeios diários regulares para manter saúde física e mental. A frequência ideal é de 2 a 3 passeios por dia, com duração de 15 a 30 minutos cada, dependendo da raça e idade. Evite passeios em horários de muito calor e sempre leve água e sacolinhas para coleta de fezes.',
+  },
+  {
+    keywords: ['banho', 'tosa', 'limpeza', 'escovar'],
+    category: 'Higiene',
+    title: 'Banho e Higiene',
+    response:
+      'A frequência de banho varia de acordo com a raça e o tipo de pelagem. Em média, cães podem ser banhados a cada 15-30 dias, enquanto gatos se autolimpam e raramente precisam de banho. Use produtos específicos para animais e evite água nos ouvidos para prevenir infecções.',
+  },
+  {
+    keywords: ['rotina', 'horário', 'dormir', 'comer'],
+    category: 'Rotina',
+    title: 'Rotina do Pet',
+    response:
+      'Manter uma rotina consistente é essencial para o bem-estar do seu pet. Horários fixos para alimentação, passeios e descanso ajudam a reduzir ansiedade e melhoram o comportamento. Pets gostam de previsibilidade e se sentem mais seguros quando sabem o que esperar.',
+  },
+];
+
+// Categorias de filtros
+const categories = [
+  { id: 'all', label: 'Todos' },
+  { id: 'Alimentação', label: 'Alimentação' },
+  { id: 'Comportamento', label: 'Comportamento' },
+  { id: 'Saúde e cuidados', label: 'Saúde e cuidados' },
+  { id: 'Higiene', label: 'Higiene' },
+  { id: 'Passeios', label: 'Passeios' },
+  { id: 'Rotina', label: 'Rotina' },
+  { id: 'Outros', label: 'Outros' },
 ];
 
 export default function IA() {
@@ -54,6 +92,7 @@ export default function IA() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const chatBottomRef = useRef(null);
 
   const quickPrompts = [
@@ -86,11 +125,22 @@ export default function IA() {
         kb.keywords.some((kw) => lowerQuery.includes(kw))
       );
 
+      // Filtrar por categoria se selecionada
+      if (selectedCategory !== 'all' && matched) {
+        if (matched.category !== selectedCategory) {
+          matched = null;
+        }
+      }
+
       let responseText = '';
       if (matched) {
         responseText = matched.response;
       } else {
-        responseText = `Entendido! Sobre "${query}": Para garantir a saúde ideal do seu pet, é essencial observar o comportamento diário, manter alimentação de qualidade, hidratação constante e rotina de passeios. Lembre-se que cada animal é único. Caso note sintomas como apatia, vômitos ou perda de apetite, consulte sempre um médico veterinário.`;
+        if (selectedCategory === 'all') {
+          responseText = `Entendido! Sobre "${query}": Para garantir a saúde ideal do seu pet, é essencial observar o comportamento diário, manter alimentação de qualidade, hidratação constante e rotina de passeios. Lembre-se que cada animal é único. Caso note sintomas como apatia, vômitos ou perda de apetite, consulte sempre um médico veterinário.`;
+        } else {
+          responseText = `Sobre "${query}" na categoria "${selectedCategory}": Não encontrei informações específicas nesta categoria. Tente selecionar "Todos" ou reformular sua pergunta para receber orientações gerais.`;
+        }
       }
 
       const aiMsg = {
@@ -140,6 +190,47 @@ export default function IA() {
           Tire dúvidas rápidas sobre cuidados diários, sinais de bem-estar e alimentação
           com a assistente inteligente da Vivarium.
         </p>
+      </div>
+
+      {/* Filtros por Categoria */}
+      <div className="mb-6">
+        <div
+          className="flex flex-wrap gap-2 justify-center"
+          style={{ maxWidth: '800px', margin: '0 auto' }}
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => setSelectedCategory(cat.id)}
+              style={{
+                padding: 'var(--space-xs) var(--space-md)',
+                fontSize: 'var(--font-size-small)',
+                fontWeight: selectedCategory === cat.id ? 'var(--font-weight-semibold)' : 'var(--font-weight-medium)',
+                backgroundColor: selectedCategory === cat.id ? 'var(--color-primary)' : 'var(--color-surface)',
+                color: selectedCategory === cat.id ? 'var(--color-text-inverse)' : 'var(--color-text)',
+                border: selectedCategory === cat.id ? '1px solid var(--color-primary)' : '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-full)',
+                cursor: 'pointer',
+                transition: 'all var(--transition-fast)',
+              }}
+              onMouseEnter={(e) => {
+                if (selectedCategory !== cat.id) {
+                  e.currentTarget.style.backgroundColor = 'var(--color-secondary)';
+                  e.currentTarget.style.borderColor = 'var(--color-primary)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (selectedCategory !== cat.id) {
+                  e.currentTarget.style.backgroundColor = 'var(--color-surface)';
+                  e.currentTarget.style.borderColor = 'var(--color-border)';
+                }
+              }}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Caixa do Chat Interativo */}

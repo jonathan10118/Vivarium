@@ -118,3 +118,52 @@
   /* Alturas de Controle Padronizadas (Acessibilidade) */
   --control-height: 44px;
 }
+
+/* ==========================================================================
+   VIVARIUM DESIGN SYSTEM TOKENS — MODO LIGHT
+   Versão clara confortável com azul muito claro, branco suave, cinza-claro
+   Fundo principal: #ADD8E6 como identidade clara
+   ========================================================================== */
+[data-theme="light"] {
+  /* Cores Principais (Identidade Vivarium) */
+  --color-primary: #0D80BF;          /* Azul médio para destaque em modo claro */
+  --color-primary-hover: #0A6BA0;    /* Hover do azul médio */
+  --color-primary-dark: #074D75;     /* Pressionado / Ativo */
+  --color-primary-light: #E8F4FD;    /* Tom mais claro de suporte */
+
+  /* Tons Secundários e Superfícies Suaves */
+  --color-secondary: #E8F4FD;         /* Superfície suave azul clara */
+  --color-secondary-hover: #D0E8F7;   /* Hover de áreas azuladas */
+  --color-secondary-dark: #B8DCF4;    /* Bordas e acentos em áreas secundárias */
+
+  /* Superfícies e Fundos (Versão clara confortável) */
+  --color-background: #ADD8E6;        /* Fundo principal da aplicação - Azul Bebê Vivarium */
+  --color-surface: #FFFFFF;           /* Superfícies limpas em branco suave */
+  --color-surface-elevated: #F8FAFC;  /* Cards elevados, menus flutuantes, header */
+  --color-surface-hover: #F1F5F9;     /* Hover em superfícies */
+
+  /* Tipografia e Contraste de Texto */
+  --color-text: #0D1F3C;              /* Azul escuro para máxima legibilidade */
+  --color-text-secondary: #475569;    /* Cinza escuro - Subtítulos, labels e descrições */
+  --color-text-muted: #94A3B8;        /* Cinza médio - Placeholders, notas de rodapé */
+  --color-text-inverse: #FFFFFF;      /* Texto branco sobre botões azuis */
+
+  /* Bordas e Divisores */
+  --color-border: #CBD5E1;            /* Borda cinza clara */
+  --color-border-hover: #94A3B8;      /* Borda interativa ao passar o mouse */
+  --color-border-focus: #0D80BF;      /* Borda ativa em foco */
+  --color-focus-ring: rgba(13, 128, 191, 0.35); /* Anel de foco para acessibilidade */
+
+  /* Cores de Feedback / Status */
+  --color-success: #059669;
+  --color-success-bg: #ECFDF5;
+  --color-success-text: #065F46;
+
+  --color-warning: #D97706;
+  --color-warning-bg: #FFFBEB;
+  --color-warning-text: #92400E;
+
+  --color-error: #DC2626;
+  --color-error-bg: #FEF2F2;
+  --color-error-text: #991B1B;
+}

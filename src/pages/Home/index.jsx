@@ -83,11 +83,6 @@ export default function Home() {
                 {isAuthenticated ? 'Acessar meu perfil' : 'Começar agora'}
               </Button>
             </Link>
-            <Link to="/mapa" style={{ textDecoration: 'none' }}>
-              <Button variant="outline" size="lg">
-                Explorar mapa
-              </Button>
-            </Link>
           </div>
 
           {/* Ilustração visual */}
@@ -144,9 +139,7 @@ export default function Home() {
               fontSize: '1.05rem',
             }}
           >
-            A Vivarium é uma plataforma criada para facilitar o cuidado, a localização e a conexão entre tutores e seus animais.
-            Com a Vivarium, você pode cadastrar e visualizar perfis detalhados de seus pets, encontrar estabelecimentos
-            relacionados a animais próximos à sua localização e consultar locais como veterinárias, pet shops e banho e tosa.
+            Um app que vem para mudar a vida de tutores de pets. Na Vivarium você dá uma identidade ao seu pet de forma online, podendo interagir com outros pets da região. Também conversa com uma I.A feita para resolver problemas cotidianos e tem um mapa de encontro com diversos outros cães e gatos do local.
           </p>
           <p
             className="body"
@@ -156,9 +149,7 @@ export default function Home() {
               fontSize: '1.05rem',
             }}
           >
-            Futuramente, a plataforma oferecerá recursos avançados de localização e interação,
-            permitindo que você encontre serviços mais próximos e receba recomendações personalizadas.
-            Tudo isso em uma interface simples, profissional e focada no bem-estar dos seus pets.
+            Seja bem-vindo e aproveite!
           </p>
         </div>
       </section>

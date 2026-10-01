@@ -139,7 +139,9 @@ export default function Footer() {
               </li>
               <li className="mb-2">
                 <a
-                  href="tel:+5541996647762"
+                  href="https://wa.me/5541996647762"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="small text-secondary"
                   style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                 >
