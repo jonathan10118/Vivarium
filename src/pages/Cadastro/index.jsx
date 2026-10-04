@@ -85,7 +85,10 @@ export default function Cadastro() {
     }
 
     // Confirmação de senha
-    const confirmResult = validatePasswordConfirm(formData.password, formData.confirmPassword);
+    const confirmResult = validatePasswordConfirm(
+      formData.password,
+      formData.confirmPassword
+    );
     if (!confirmResult.valid) {
       newErrors.confirmPassword = confirmResult.message;
     }
@@ -95,7 +98,9 @@ export default function Cadastro() {
       newErrors['address.cep'] = 'CEP é obrigatório';
     } else {
       const cepResult = validateAndFormatCEP(formData.address.cep);
-      if (!cepResult.valid) newErrors['address.cep'] = 'CEP inválido';
+      if (!cepResult.valid) {
+        newErrors['address.cep'] = 'CEP inválido';
+      }
     }
 
     if (!trimField(formData.address.street)) {
@@ -130,6 +135,7 @@ export default function Cadastro() {
         [field]: value,
       },
     }));
+
     // Limpa erro do campo ao digitar
     if (errors[`address.${field}`]) {
       setErrors(prev => ({
@@ -146,7 +152,7 @@ export default function Cadastro() {
     if (!validateForm()) return;
 
     setIsLoading(true);
-    
+
     // Formata dados antes de enviar
     const formattedName = validateAndFormatName(formData.name).value;
     const formattedEmail = validateAndFormatEmail(formData.email).value;
@@ -154,7 +160,18 @@ export default function Cadastro() {
     const formattedPhone = validateAndFormatPhone(formData.phone).value;
     const formattedCEP = validateAndFormatCEP(formData.address.cep).value;
 
-    const result = await register(formattedName, formattedEmail, formData.password);
+    const result = await register({
+      name: formattedName,
+      email: formattedEmail,
+      cpf: formattedCPF,
+      phone: formattedPhone,
+      password: formData.password,
+      address: {
+        ...formData.address,
+        cep: formattedCEP,
+      },
+    });
+
     setIsLoading(false);
 
     if (result.success) {
@@ -168,7 +185,12 @@ export default function Cadastro() {
           cep: formattedCEP,
         },
       };
-      localStorage.setItem('vivarium_user_extended', JSON.stringify(userData));
+
+      localStorage.setItem(
+        'vivarium_user_extended',
+        JSON.stringify(userData)
+      );
+
       navigate('/perfil');
     } else {
       setErrors({ form: result.error });
@@ -177,10 +199,12 @@ export default function Cadastro() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData(prev => ({
       ...prev,
       [name]: value,
     }));
+
     // Limpa erro do campo ao digitar
     if (errors[name]) {
       setErrors(prev => ({
@@ -193,41 +217,47 @@ export default function Cadastro() {
   const handleCPFChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');
     let formatted = '';
-    
+
     if (value.length > 0) {
       formatted = value.substring(0, 3);
       if (value.length > 3) formatted += '.' + value.substring(3, 6);
       if (value.length > 6) formatted += '.' + value.substring(6, 9);
       if (value.length > 9) formatted += '-' + value.substring(9, 11);
     }
-    
+
     setFormData(prev => ({ ...prev, cpf: formatted }));
-    if (errors.cpf) setErrors(prev => ({ ...prev, cpf: '' }));
+
+    if (errors.cpf) {
+      setErrors(prev => ({ ...prev, cpf: '' }));
+    }
   };
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');
     let formatted = '';
-    
+
     if (value.length > 0) {
       formatted = '(' + value.substring(0, 2);
       if (value.length > 2) formatted += ') ' + value.substring(2, 7);
       if (value.length > 7) formatted += '-' + value.substring(7, 11);
     }
-    
+
     setFormData(prev => ({ ...prev, phone: formatted }));
-    if (errors.phone) setErrors(prev => ({ ...prev, phone: '' }));
+
+    if (errors.phone) {
+      setErrors(prev => ({ ...prev, phone: '' }));
+    }
   };
 
   const handleCEPChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');
     let formatted = '';
-    
+
     if (value.length > 0) {
       formatted = value.substring(0, 5);
       if (value.length > 5) formatted += '-' + value.substring(5, 8);
     }
-    
+
     handleAddressChange('cep', formatted);
   };
 
@@ -250,13 +280,29 @@ export default function Cadastro() {
           </p>
         </div>
 
-        {errors.form && <ErrorMessage message={errors.form} onDismiss={() => setErrors({})} />}
+        {errors.form && (
+          <ErrorMessage
+            message={errors.form}
+            onDismiss={() => setErrors({})}
+          />
+        )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Dados Pessoais */}
-          <div style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: 'var(--space-md)', marginBottom: 'var(--space-md)' }}>
-            <h3 className="h3 mb-4" style={{ fontSize: 'var(--font-size-body)' }}>Dados Pessoais</h3>
-            
+          <div
+            style={{
+              borderBottom: '1px solid var(--color-border)',
+              paddingBottom: 'var(--space-md)',
+              marginBottom: 'var(--space-md)',
+            }}
+          >
+            <h3
+              className="h3 mb-4"
+              style={{ fontSize: 'var(--font-size-body)' }}
+            >
+              Dados Pessoais
+            </h3>
+
             <Input
               label="Nome completo"
               type="text"
@@ -303,9 +349,20 @@ export default function Cadastro() {
           </div>
 
           {/* Endereço */}
-          <div style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: 'var(--space-md)', marginBottom: 'var(--space-md)' }}>
-            <h3 className="h3 mb-4" style={{ fontSize: 'var(--font-size-body)' }}>Endereço</h3>
-            
+          <div
+            style={{
+              borderBottom: '1px solid var(--color-border)',
+              paddingBottom: 'var(--space-md)',
+              marginBottom: 'var(--space-md)',
+            }}
+          >
+            <h3
+              className="h3 mb-4"
+              style={{ fontSize: 'var(--font-size-body)' }}
+            >
+              Endereço
+            </h3>
+
             <Input
               label="CEP"
               type="text"
@@ -320,7 +377,9 @@ export default function Cadastro() {
               label="Rua"
               type="text"
               value={formData.address.street}
-              onChange={(e) => handleAddressChange('street', e.target.value)}
+              onChange={(e) =>
+                handleAddressChange('street', e.target.value)
+              }
               placeholder="Nome da rua"
               error={errors['address.street']}
             />
@@ -330,16 +389,21 @@ export default function Cadastro() {
                 label="Número"
                 type="text"
                 value={formData.address.number}
-                onChange={(e) => handleAddressChange('number', e.target.value)}
+                onChange={(e) =>
+                  handleAddressChange('number', e.target.value)
+                }
                 placeholder="123"
                 error={errors['address.number']}
                 style={{ flex: 1 }}
               />
+
               <Input
                 label="Complemento"
                 type="text"
                 value={formData.address.complement}
-                onChange={(e) => handleAddressChange('complement', e.target.value)}
+                onChange={(e) =>
+                  handleAddressChange('complement', e.target.value)
+                }
                 placeholder="Apto, bloco..."
                 style={{ flex: 2 }}
               />
@@ -349,7 +413,9 @@ export default function Cadastro() {
               label="Bairro"
               type="text"
               value={formData.address.neighborhood}
-              onChange={(e) => handleAddressChange('neighborhood', e.target.value)}
+              onChange={(e) =>
+                handleAddressChange('neighborhood', e.target.value)
+              }
               placeholder="Nome do bairro"
               error={errors['address.neighborhood']}
             />
@@ -359,16 +425,21 @@ export default function Cadastro() {
                 label="Cidade"
                 type="text"
                 value={formData.address.city}
-                onChange={(e) => handleAddressChange('city', e.target.value)}
+                onChange={(e) =>
+                  handleAddressChange('city', e.target.value)
+                }
                 placeholder="Nome da cidade"
                 error={errors['address.city']}
                 style={{ flex: 2 }}
               />
+
               <Input
                 label="Estado"
                 type="text"
                 value={formData.address.state}
-                onChange={(e) => handleAddressChange('state', e.target.value)}
+                onChange={(e) =>
+                  handleAddressChange('state', e.target.value)
+                }
                 placeholder="PR"
                 maxLength={2}
                 error={errors['address.state']}
@@ -379,8 +450,13 @@ export default function Cadastro() {
 
           {/* Senha */}
           <div>
-            <h3 className="h3 mb-4" style={{ fontSize: 'var(--font-size-body)' }}>Senha</h3>
-            
+            <h3
+              className="h3 mb-4"
+              style={{ fontSize: 'var(--font-size-body)' }}
+            >
+              Senha
+            </h3>
+
             <Input
               label="Senha"
               type="password"
@@ -416,10 +492,14 @@ export default function Cadastro() {
           </Button>
         </form>
 
-        <div className="mt-6 pt-4 text-center" style={{ borderTop: '1px solid var(--color-border)' }}>
+        <div
+          className="mt-6 pt-4 text-center"
+          style={{ borderTop: '1px solid var(--color-border)' }}
+        >
           <p className="small text-secondary mb-3">
             Já tem uma conta?
           </p>
+
           <Link to="/login">
             <Button variant="secondary" fullWidth>
               Entrar

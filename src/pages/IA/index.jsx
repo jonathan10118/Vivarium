@@ -156,7 +156,11 @@ export default function IA() {
   };
 
   useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Só fazer scroll se houver mais de 1 mensagem (welcome + nova mensagem)
+    // Isso evita scroll no carregamento inicial da página
+    if (messages.length > 1) {
+      chatBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages, isTyping]);
 
   return (

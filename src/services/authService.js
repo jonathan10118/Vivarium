@@ -1,129 +1,241 @@
 /**
  * Serviço de autenticação do Vivarium
- * Trabalha com localStorage e dados mockados
+ * Integra login e cadastro com o backend
  */
 
 import storageService from './storageService';
-import { mockUsers, getMockUserByEmail } from '../data';
+import { mockUsers } from '../data';
 
 class AuthService {
-  /**
-   * Inicializa os dados mockados se não existirem
-   */
   initializeMockData() {
     const users = storageService.getUsers();
+
     if (users.length === 0) {
       storageService.setUsers(mockUsers);
     }
   }
 
-  /**
-   * Realiza login com email e senha
-   */
   async login(email, password) {
-    // Simula delay de rede
-    await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+      const response = await fetch('http://localhost:3000/api/usuarios/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          senha: password,
+        }),
+      });
 
-    const users = storageService.getUsers();
-    const user = users.find(u => u.email === email && u.password === password);
+      const data = await response.json();
 
-    if (user) {
-      const { password: _, ...userWithoutPassword } = user;
-      storageService.setAuthUser(userWithoutPassword);
+      if (!response.ok) {
+        return {
+          success: false,
+          error: data.erro || 'E-mail ou senha inválidos.',
+        };
+      }
+
+      const usuario = data.usuario;
+
+      const user = {
+        id: usuario.id,
+        name: usuario.nome,
+        email: usuario.email,
+        createdAt: usuario.createdAt || null,
+        cpf: usuario.cpf || '',
+        phone: usuario.telefone || '',
+        address: {
+          cep: usuario.endereco?.cep || '',
+          street: usuario.endereco?.rua || '',
+          number: usuario.endereco?.numero || '',
+          complement: usuario.endereco?.complemento || '',
+          neighborhood: usuario.endereco?.bairro || '',
+          city: usuario.endereco?.cidade || '',
+          state: usuario.endereco?.estado || '',
+        },
+        avatar: null,
+      };
+
+      storageService.setAuthUser(user);
       storageService.setAuthenticated(true);
-      return { success: true, user: userWithoutPassword };
-    }
 
-    return { success: false, error: 'E-mail ou senha inválidos' };
+      localStorage.setItem('vivarium_token', data.token);
+
+      return {
+        success: true,
+        user,
+      };
+    } catch (error) {
+      console.error('Erro ao conectar com o backend:', error);
+
+      return {
+        success: false,
+        error: 'Não foi possível conectar ao servidor do Vivarium.',
+      };
+    }
   }
 
-  /**
-   * Realiza cadastro de novo usuário
-   */
-  async register(name, email, password) {
-    // Simula delay de rede
-    await new Promise(resolve => setTimeout(resolve, 500));
+  async register(userData) {
+    try {
+      const response = await fetch(
+        'http://localhost:3000/api/usuarios/cadastro',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nome: userData.name,
+            email: userData.email,
+            cpf: userData.cpf,
+            telefone: userData.phone,
+            cep: userData.address?.cep,
+            rua: userData.address?.street,
+            numero: userData.address?.number,
+            complemento: userData.address?.complement,
+            bairro: userData.address?.neighborhood,
+            cidade: userData.address?.city,
+            estado: userData.address?.state,
+            senha: userData.password,
+          }),
+        }
+      );
 
-    const users = storageService.getUsers();
-    
-    // Verifica se email já existe
-    if (users.some(u => u.email === email)) {
-      return { success: false, error: 'E-mail já cadastrado' };
+      const data = await response.json();
+
+      if (!response.ok) {
+        return {
+          success: false,
+          error: data.erro || 'Não foi possível criar a conta.',
+        };
+      }
+
+      const usuario = data.usuario;
+
+      const user = {
+        id: usuario.id,
+        name: usuario.nome,
+        email: usuario.email,
+        createdAt: usuario.createdAt || null,
+        cpf: usuario.cpf || userData.cpf || '',
+        phone: usuario.telefone || userData.phone || '',
+        address: {
+          cep: usuario.endereco?.cep || userData.address?.cep || '',
+          street: usuario.endereco?.rua || userData.address?.street || '',
+          number: usuario.endereco?.numero || userData.address?.number || '',
+          complement:
+            usuario.endereco?.complemento ||
+            userData.address?.complement ||
+            '',
+          neighborhood:
+            usuario.endereco?.bairro ||
+            userData.address?.neighborhood ||
+            '',
+          city: usuario.endereco?.cidade || userData.address?.city || '',
+          state: usuario.endereco?.estado || userData.address?.state || '',
+        },
+        avatar: null,
+      };
+
+      storageService.setAuthUser(user);
+      storageService.setAuthenticated(true);
+
+      localStorage.setItem(
+        'vivarium_user_extended',
+        JSON.stringify({
+          cpf: user.cpf,
+          phone: user.phone,
+          address: user.address,
+        })
+      );
+
+      localStorage.setItem('vivarium_token', data.token);
+
+      return {
+        success: true,
+        user,
+      };
+    } catch (error) {
+      console.error('Erro ao conectar com o backend:', error);
+
+      return {
+        success: false,
+        error: 'Não foi possível conectar ao servidor do Vivarium.',
+      };
     }
-
-    const newUser = {
-      id: Date.now().toString(),
-      name,
-      email,
-      password,
-      avatar: null,
-      createdAt: new Date().toISOString(),
-    };
-
-    storageService.addUser(newUser);
-    
-    const { password: _, ...userWithoutPassword } = newUser;
-    storageService.setAuthUser(userWithoutPassword);
-    storageService.setAuthenticated(true);
-
-    return { success: true, user: userWithoutPassword };
   }
 
-  /**
-   * Realiza logout
-   */
   logout() {
     storageService.clearAuth();
+
     try {
       localStorage.removeItem('vivarium_user_extended');
+      localStorage.removeItem('vivarium_token');
     } catch {
       // ignore
     }
   }
 
-  /**
-   * Obtém usuário autenticado atual
-   */
   getCurrentUser() {
     return storageService.getAuthUser();
   }
 
-  /**
-   * Verifica se usuário está autenticado
-   */
   isLoggedIn() {
     return storageService.isAuthenticated();
   }
 
-  /**
-   * Atualiza dados do usuário
-   */
   async updateUser(updatedData) {
     const currentUser = this.getCurrentUser();
-    if (!currentUser) return { success: false, error: 'Usuário não autenticado' };
 
-    const success = storageService.updateUser(currentUser.id, updatedData);
-    if (success) {
-      const updatedUser = { ...currentUser, ...updatedData };
-      storageService.setAuthUser(updatedUser);
-      
-      // Atualiza dados estendidos se existirem
-      const extendedData = JSON.parse(localStorage.getItem('vivarium_user_extended') || '{}');
-      const updatedExtended = { ...extendedData, ...updatedData };
-      localStorage.setItem('vivarium_user_extended', JSON.stringify(updatedExtended));
-      
-      return { success: true, user: updatedUser };
+    if (!currentUser) {
+      return {
+        success: false,
+        error: 'Usuário não autenticado',
+      };
     }
 
-    return { success: false, error: 'Erro ao atualizar usuário' };
+    try {
+      const updatedUser = {
+        ...currentUser,
+        ...updatedData,
+        address: {
+          ...(currentUser.address || {}),
+          ...(updatedData.address || {}),
+        },
+      };
+
+      storageService.setAuthUser(updatedUser);
+
+      localStorage.setItem(
+        'vivarium_user_extended',
+        JSON.stringify({
+          cpf: updatedUser.cpf || '',
+          phone: updatedUser.phone || '',
+          address: updatedUser.address || {},
+        })
+      );
+
+      return {
+        success: true,
+        user: updatedUser,
+      };
+    } catch (error) {
+      console.error('Erro ao atualizar usuário:', error);
+
+      return {
+        success: false,
+        error: 'Erro ao atualizar usuário',
+      };
+    }
   }
 
-  /**
-   * Obtém dados estendidos do usuário
-   */
   getExtendedUserData() {
     try {
-      return JSON.parse(localStorage.getItem('vivarium_user_extended') || '{}');
+      return JSON.parse(
+        localStorage.getItem('vivarium_user_extended') || '{}'
+      );
     } catch {
       return {};
     }

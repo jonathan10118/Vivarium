@@ -5,11 +5,12 @@
  */
 
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../contexts';
+import { useAuth, useTheme } from '../../contexts';
 import Button from '../../components/ui/Button';
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
+  const { theme } = useTheme();
 
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -85,20 +86,26 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Ilustração visual */}
+          {/* Logo Completa VIVARIUM Pet Tech */}
           <div
             className="mt-6"
             style={{
               display: 'flex',
-              gap: 'var(--space-xl)',
-              fontSize: '3.5rem',
-              userSelect: 'none',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
             aria-hidden="true"
           >
-            <span style={{ animation: 'bounce 2.2s infinite' }}>🐕</span>
-            <span style={{ animation: 'bounce 2.2s infinite 0.25s' }}>🐱</span>
-            <span style={{ animation: 'bounce 2.2s infinite 0.5s' }}>🐕</span>
+            <img
+              src={theme === 'dark' ? '/logo-dark.png' : '/logo-light.png'}
+              alt="VIVARIUM Pet Tech"
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+                maxHeight: '200px',
+                width: 'auto',
+              }}
+            />
           </div>
         </div>
       </section>

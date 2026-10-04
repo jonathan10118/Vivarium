@@ -24,7 +24,7 @@ export default function Perfil() {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout, updateUser, getExtendedUserData } = useAuth();
   const { getUserPets } = usePets();
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({
     name: '',
@@ -54,27 +54,31 @@ export default function Perfil() {
 
   const handleEdit = () => {
     setEditData({
-      name: user.name,
-      email: user.email,
-      cpf: extendedData.cpf || '',
-      phone: extendedData.phone || '',
-      address: extendedData.address || {
-        cep: '',
-        street: '',
-        number: '',
-        complement: '',
-        neighborhood: '',
-        city: '',
-        state: '',
+      name: user.name || '',
+      email: user.email || '',
+      cpf: user.cpf || extendedData.cpf || '',
+      phone: user.phone || extendedData.phone || '',
+      address: {
+        cep: user.address?.cep || extendedData.address?.cep || '',
+        street: user.address?.street || extendedData.address?.street || '',
+        number: user.address?.number || extendedData.address?.number || '',
+        complement:
+          user.address?.complement || extendedData.address?.complement || '',
+        neighborhood:
+          user.address?.neighborhood ||
+          extendedData.address?.neighborhood ||
+          '',
+        city: user.address?.city || extendedData.address?.city || '',
+        state: user.address?.state || extendedData.address?.state || '',
       },
     });
+
     setIsEditing(true);
   };
 
-  const handleSaveProfile = async () => {
+    const handleSaveProfile = async () => {
     setIsSaving(true);
-    
-    // Formata dados antes de salvar
+
     const formattedName = validateAndFormatName(editData.name).value;
     const formattedEmail = validateAndFormatEmail(editData.email).value;
     const formattedCPF = validateAndFormatCPF(editData.cpf).value;
@@ -91,12 +95,14 @@ export default function Perfil() {
         cep: formattedCEP,
       },
     });
+
     setIsSaving(false);
 
     if (result.success) {
       setIsEditing(false);
     }
   };
+
 
   const handleCancelEdit = () => {
     setIsEditing(false);
@@ -110,42 +116,45 @@ export default function Perfil() {
   const handleCPFChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');
     let formatted = '';
-    
+
     if (value.length > 0) {
       formatted = value.substring(0, 3);
       if (value.length > 3) formatted += '.' + value.substring(3, 6);
       if (value.length > 6) formatted += '.' + value.substring(6, 9);
       if (value.length > 9) formatted += '-' + value.substring(9, 11);
     }
-    
+
     setEditData(prev => ({ ...prev, cpf: formatted }));
   };
 
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');
     let formatted = '';
-    
+
     if (value.length > 0) {
       formatted = '(' + value.substring(0, 2);
       if (value.length > 2) formatted += ') ' + value.substring(2, 7);
       if (value.length > 7) formatted += '-' + value.substring(7, 11);
     }
-    
+
     setEditData(prev => ({ ...prev, phone: formatted }));
   };
 
   const handleCEPChange = (e) => {
     const value = e.target.value.replace(/\D/g, '');
     let formatted = '';
-    
+
     if (value.length > 0) {
       formatted = value.substring(0, 5);
       if (value.length > 5) formatted += '-' + value.substring(5, 8);
     }
-    
+
     setEditData(prev => ({
       ...prev,
-      address: { ...prev.address, cep: formatted }
+      address: {
+        ...prev.address,
+        cep: formatted,
+      },
     }));
   };
 
@@ -158,6 +167,7 @@ export default function Perfil() {
       }}
     >
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+
         {/* Header do Perfil */}
         <div className="mb-8">
           <h1 className="h2 mb-2">Meu perfil</h1>
@@ -174,31 +184,48 @@ export default function Perfil() {
               name={user.name}
               size="xl"
             />
+
             <div className="flex-1">
               {isEditing ? (
                 <div className="flex flex-col gap-4">
-                  <h3 className="h3 mb-4" style={{ fontSize: 'var(--font-size-body)' }}>Dados Pessoais</h3>
-                  
+
+                  <h3
+                    className="h3 mb-4"
+                    style={{ fontSize: 'var(--font-size-body)' }}
+                  >
+                    Dados Pessoais
+                  </h3>
+
                   <Input
                     label="Nome"
                     value={editData.name}
-                    onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+                    onChange={(e) =>
+                      setEditData({
+                        ...editData,
+                        name: e.target.value,
+                      })
+                    }
                   />
-                  
+
                   <Input
                     label="E-mail"
                     type="email"
                     value={editData.email}
-                    onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                    onChange={(e) =>
+                      setEditData({
+                        ...editData,
+                        email: e.target.value,
+                      })
+                    }
                   />
-                  
+
                   <Input
                     label="CPF"
                     value={editData.cpf}
                     onChange={handleCPFChange}
                     maxLength={14}
                   />
-                  
+
                   <Input
                     label="Telefone"
                     value={editData.phone}
@@ -206,77 +233,119 @@ export default function Perfil() {
                     maxLength={15}
                   />
 
-                  <h3 className="h3 mb-4 mt-4" style={{ fontSize: 'var(--font-size-body)' }}>Endereço</h3>
-                  
+                  <h3
+                    className="h3 mb-4 mt-4"
+                    style={{ fontSize: 'var(--font-size-body)' }}
+                  >
+                    Endereço
+                  </h3>
+
                   <Input
                     label="CEP"
                     value={editData.address.cep}
                     onChange={handleCEPChange}
                     maxLength={9}
                   />
-                  
+
                   <Input
                     label="Rua"
                     value={editData.address.street}
-                    onChange={(e) => setEditData({
-                      ...editData,
-                      address: { ...editData.address, street: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setEditData({
+                        ...editData,
+                        address: {
+                          ...editData.address,
+                          street: e.target.value,
+                        },
+                      })
+                    }
                   />
-                  
+
                   <div className="flex gap-3">
                     <Input
                       label="Número"
                       value={editData.address.number}
-                      onChange={(e) => setEditData({
-                        ...editData,
-                        address: { ...editData.address, number: e.target.value }
-                      })}
+                      onChange={(e) =>
+                        setEditData({
+                          ...editData,
+                          address: {
+                            ...editData.address,
+                            number: e.target.value,
+                          },
+                        })
+                      }
                       style={{ flex: 1 }}
                     />
+
                     <Input
                       label="Complemento"
                       value={editData.address.complement}
-                      onChange={(e) => setEditData({
-                        ...editData,
-                        address: { ...editData.address, complement: e.target.value }
-                      })}
+                      onChange={(e) =>
+                        setEditData({
+                          ...editData,
+                          address: {
+                            ...editData.address,
+                            complement: e.target.value,
+                          },
+                        })
+                      }
                       style={{ flex: 2 }}
                     />
                   </div>
-                  
+
                   <Input
                     label="Bairro"
                     value={editData.address.neighborhood}
-                    onChange={(e) => setEditData({
-                      ...editData,
-                      address: { ...editData.address, neighborhood: e.target.value }
-                    })}
+                    onChange={(e) =>
+                      setEditData({
+                        ...editData,
+                        address: {
+                          ...editData.address,
+                          neighborhood: e.target.value,
+                        },
+                      })
+                    }
                   />
-                  
+
                   <div className="flex gap-3">
                     <Input
                       label="Cidade"
                       value={editData.address.city}
-                      onChange={(e) => setEditData({
-                        ...editData,
-                        address: { ...editData.address, city: e.target.value }
-                      })}
+                      onChange={(e) =>
+                        setEditData({
+                          ...editData,
+                          address: {
+                            ...editData.address,
+                            city: e.target.value,
+                          },
+                        })
+                      }
                       style={{ flex: 2 }}
                     />
+
                     <Input
                       label="Estado"
                       value={editData.address.state}
-                      onChange={(e) => setEditData({
-                        ...editData,
-                        address: { ...editData.address, state: e.target.value }
-                      })}
+                      onChange={(e) =>
+                        setEditData({
+                          ...editData,
+                          address: {
+                            ...editData.address,
+                            state: e.target.value,
+                          },
+                        })
+                      }
                       maxLength={2}
                       style={{ flex: 1 }}
                     />
                   </div>
 
-                  <div className="flex gap-2 pt-4" style={{ borderTop: '1px solid var(--color-border)' }}>
+                  <div
+                    className="flex gap-2 pt-4"
+                    style={{
+                      borderTop: '1px solid var(--color-border)',
+                    }}
+                  >
                     <Button
                       variant="outline"
                       onClick={handleCancelEdit}
@@ -284,6 +353,7 @@ export default function Perfil() {
                     >
                       Cancelar
                     </Button>
+
                     <Button
                       variant="primary"
                       onClick={handleSaveProfile}
@@ -296,36 +366,52 @@ export default function Perfil() {
               ) : (
                 <>
                   <h2 className="h3 mb-1">{user.name}</h2>
-                  <p className="small text-secondary mb-2">{user.email}</p>
-                  
+
+                  <p className="small text-secondary mb-2">
+                    {user.email}
+                  </p>
+
                   {extendedData.cpf && (
                     <p className="small text-secondary mb-1">
                       <strong>CPF:</strong> {extendedData.cpf}
                     </p>
                   )}
-                  
+
                   {extendedData.phone && (
                     <p className="small text-secondary mb-1">
                       <strong>Telefone:</strong> {extendedData.phone}
                     </p>
                   )}
-                  
+
                   {extendedData.address && (
                     <p className="small text-secondary mb-2">
                       <strong>Endereço:</strong>{' '}
-                      {extendedData.address.street}, {extendedData.address.number}
-                      {extendedData.address.complement && ` - ${extendedData.address.complement}`}
+                      {extendedData.address.street},{' '}
+                      {extendedData.address.number}
+
+                      {extendedData.address.complement &&
+                        ` - ${extendedData.address.complement}`}
+
                       <br />
-                      {extendedData.address.neighborhood} - {extendedData.address.city}/{extendedData.address.state}
-                      {extendedData.address.cep && ` - CEP: ${extendedData.address.cep}`}
+
+                      {extendedData.address.neighborhood} -{' '}
+                      {extendedData.address.city}/
+                      {extendedData.address.state}
+
+                      {extendedData.address.cep &&
+                        ` - CEP: ${extendedData.address.cep}`}
                     </p>
                   )}
-                  
+
                   <div className="flex items-center gap-2">
                     <span className="caption text-muted">
-                      Membro desde: {new Date(user.createdAt).toLocaleDateString('pt-BR')}
+                      Membro desde:{' '}
+                      {user.createdAt
+                        ? new Date(user.createdAt).toLocaleDateString('pt-BR')
+                        : 'Data não informada'}
                     </span>
                   </div>
+
                   <div className="flex gap-2 mt-4">
                     <Button
                       variant="outline"
@@ -334,6 +420,7 @@ export default function Perfil() {
                     >
                       Editar perfil
                     </Button>
+
                     <Button
                       variant="text"
                       size="sm"
@@ -350,7 +437,10 @@ export default function Perfil() {
 
         {/* Seção de Pets */}
         <div className="flex items-center justify-between mb-4">
-          <h2 className="h3">Meus pets ({userPets.length})</h2>
+          <h2 className="h3">
+            Meus pets ({userPets.length})
+          </h2>
+
           <Link to="/pets/novo">
             <Button variant="primary" size="sm">
               + Cadastrar novo pet
@@ -374,7 +464,10 @@ export default function Perfil() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {userPets.map(pet => (
-              <PetCard key={pet.id} pet={pet} />
+              <PetCard
+                key={pet.id}
+                pet={pet}
+              />
             ))}
           </div>
         )}

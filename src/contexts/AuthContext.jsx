@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
     // Verifica autenticação ao carregar
     const currentUser = authService.getCurrentUser();
     const isLoggedIn = authService.isLoggedIn();
-    
+
     setUser(currentUser);
     setIsAuthenticated(isLoggedIn);
     setIsLoading(false);
@@ -25,19 +25,23 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const result = await authService.login(email, password);
+
     if (result.success) {
       setUser(result.user);
       setIsAuthenticated(true);
     }
+
     return result;
   };
 
-  const register = async (name, email, password) => {
-    const result = await authService.register(name, email, password);
+  const register = async (userData) => {
+    const result = await authService.register(userData);
+
     if (result.success) {
       setUser(result.user);
       setIsAuthenticated(true);
     }
+
     return result;
   };
 
@@ -49,9 +53,11 @@ export function AuthProvider({ children }) {
 
   const updateUser = async (updatedData) => {
     const result = await authService.updateUser(updatedData);
+
     if (result.success) {
       setUser(result.user);
     }
+
     return result;
   };
 
@@ -70,13 +76,19 @@ export function AuthProvider({ children }) {
     getExtendedUserData,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
   const context = useContext(AuthContext);
+
   if (!context) {
     throw new Error('useAuth deve ser usado dentro de um AuthProvider');
   }
+
   return context;
 }
